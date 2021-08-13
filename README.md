@@ -12,7 +12,33 @@ Download the binary from [GitHub](https://github.com/Celeo/speak_bot) or install
 
 ## Using
 
-TODO
+You'll need 3 things:
+
+1. [This bot](#installing)
+1. A Discord bot token
+1. A text file with quotes
+
+To set up a Discord bot, head to [discord.com/developers/applications](https://discord.com/developers/applications), create an application, click on "Bot" on the left nav, and then the "Add Bot" button. Now, there will be a lot more information on the page, and a "Copy" button next to the icon. Click that, and that's your bot's token - you'll need this token when running this program. You'll also need to invite the bot to your server (or a server on which you are an admin) by clicking on the "Oauth" item on the left nav, selecting "bot" in the area with all the checkboxes, and then copying the URL into your browser and confirming the addition.
+
+For the quotes, create a text file with one quote per line.
+
+Once you have these items, run the bot with:
+
+```sh
+./speak_bot <path/to/quotes.txt> -t <token>
+```
+
+or
+
+```sh
+./speak_bot <path/to/quotes.txt>
+```
+
+if you have your Discord bot token in an environment variable called "DISCORD_TOKEN". This may be more useful for you, as you can configure your terminal to have that variable instead of having to remember it whenever you start the bot.
+
+To run the bot in the background, you can look into your OS's capabilities to run programs in the background. For Linux systems, [systemd](https://linuxconfig.org/how-to-write-a-simple-systemd-service) is a popular choice.
+
+When the bot is running, it will respond with a random quote from the quotes file whenever mentioned (like with `@`).
 
 ## Developing
 
@@ -28,7 +54,7 @@ TODO
 ```sh
 git clone https://github.com/Celeo/speak_bot
 cd speak_bot
-cargo test
+cargo build
 ```
 
 ## License
