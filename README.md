@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Celeo/speak_bot/workflows/CI/badge.svg?branch=master)](https://github.com/celeo/speak_bot/actions?query=workflow%3ACI)
 [![Crates.io](https://img.shields.io/crates/v/speak_bot.svg)](https://crates.io/crates/speak_bot)
-[![License](https://img.shields.io/crates/l/speak_bot)](https://github.com/Celeo/speak_bot/blob/master/Cargo.toml#L10)
+[![License](https://img.shields.io/crates/l/speak_bot)](https://github.com/Celeo/speak_bot/blob/master/Cargo.toml#L9)
 
 Simple program to run a Discord bot that responds to mentions with a randomly-selected quote from a text file.
 
