@@ -99,7 +99,7 @@ async fn main() {
         exit(1);
     }
 
-    let mut client = match Client::builder(&token)
+    let mut client = match Client::builder(&token, GatewayIntents::default())
         .event_handler(Handler { quotes })
         .await
     {
