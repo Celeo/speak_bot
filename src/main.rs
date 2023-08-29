@@ -1,3 +1,4 @@
+use clap::Parser;
 use log::{debug, error, info};
 use rand::{seq::SliceRandom, thread_rng};
 use serenity::{
@@ -6,21 +7,18 @@ use serenity::{
     prelude::*,
 };
 use std::{env, fs, path::PathBuf, process::exit};
-use structopt::StructOpt;
 
-#[derive(Debug, StructOpt)]
-#[structopt(
-    name = "speak_bot",
-    about = "Run a Discord bot that responds to mentions"
-)]
-struct Opt {
-    #[structopt(short, long, help = "Show more logging")]
+/// Discord bot to respond to being mentioned.
+#[derive(Debug, Parser)]
+#[command(author, version, about = "Run a Discord bot that responds to mentions")]
+struct Args {
+    #[arg(short, long, help = "Show more logging")]
     debug: bool,
 
-    #[structopt(help = "Path to the text file with quotes")]
+    #[arg(help = "Path to the text file with quotes")]
     quotes_files: PathBuf,
 
-    #[structopt(short = "t", long, help = "Discord token; pass via arg or env var")]
+    #[arg(short = 't', long, help = "Discord token; pass via arg or env var")]
     discord_token: Option<String>,
 }
 
@@ -58,16 +56,16 @@ impl EventHandler for Handler {
 
 #[tokio::main]
 async fn main() {
-    let opt = Opt::from_args();
+    let args = Args::parse();
 
     if env::var("RUST_LOG").is_err() {
-        let log_level = if opt.debug { "debug" } else { "info" };
+        let log_level = if args.debug { "debug" } else { "info" };
         env::set_var("RUST_LOG", format!("speak_bot={}", log_level));
     }
     pretty_env_logger::init();
     debug!("Setting up");
 
-    let token = match opt.discord_token {
+    let token = match args.discord_token {
         Some(t) => t,
         None => match env::var("DISCORD_TOKEN") {
             Ok(t) => t,
@@ -78,11 +76,11 @@ async fn main() {
         },
     };
 
-    if !opt.quotes_files.exists() {
+    if !args.quotes_files.exists() {
         error!("Quotes file does not exist");
         exit(1);
     }
-    let quotes: Vec<String> = match fs::read_to_string(&opt.quotes_files) {
+    let quotes: Vec<String> = match fs::read_to_string(&args.quotes_files) {
         Ok(s) => s
             .split('\n')
             .filter(|&s| !s.is_empty())
